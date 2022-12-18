@@ -3,8 +3,12 @@ const state = {
     db:null 
 }
 module.exports.connect = function(done) {
-    const url = 'mongodb://localhost:27017';
-    const dbname = 'shop'
+    // const url = 'mongodb://localhost:27017';
+    const url = "mongodb://0.0.0.0:27017/";
+    const dbname = 'shop';
+
+    // const uri = "mongodb://0.0.0.0:27017/";
+    // const client = new MongoClient(uri);
 
     // MongoClient.connect(url)
     // .then(function (dbname) {
@@ -12,12 +16,11 @@ module.exports.connect = function(done) {
     // })
     // .catch(function (err) {})
     MongoClient.connect(url,(err,data) => {
-        if(err) {
-            return done(err);
-        }
+        if(err) return done(err);
         state.db = data.db(dbname);
+        done();
     })
-    done();
+    
 }
 
 module.exports.get = function() {

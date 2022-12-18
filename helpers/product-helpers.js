@@ -1,13 +1,13 @@
-var db = require('../config/connection').get()
+var db = require('../config/connection')   
 
 module.exports = {
 
     addProduct:(product, callback) => {
-        console.log(product);
-        db.collection('product').insertOne(product).then((data) => {
-            callback(true);
+        // console.log(product);
+
+        db.get().collection('product').insertOne(product).then((data) => {
+            // console.log(data);
+            callback(data._id);
         })
     }
-
-
-}
+} 

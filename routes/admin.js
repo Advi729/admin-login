@@ -1,4 +1,5 @@
 var express = require('express');
+const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers');
 
@@ -62,13 +63,22 @@ router.get('/add-product', function(req, res) {
 });
 
 router.post('/add-product', (req, res) => {
-  console.log(req.body);
-  console.log(req.files.Image);
+  // console.log(req.body);
+  // console.log(req.files.Image);
 
-  productHelper.addProduct(req.body,(result)=>{
-    res.render('admin/add-product');
+  productHelpers.addProduct(req.body,(id)=>{
+    let image = req.files.Image;
+    console.log(id);
+    image.mv('./public/images/product-images/'+id+'.jpg',(err) => {
+      if(!err) {
+        res.render("admin/add-product");
+      }
+      else{
+        console.log(err);
+      }
+    });
   });
-})
+});
 
 
 

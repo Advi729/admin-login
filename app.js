@@ -36,7 +36,7 @@ app.use(fileUpload());
 
 db.connect((err)=>{
   if(err){
-    console.log("Connection Error"+err);
+    console.log("Connection Error: "+err);
   } else {
     console.log("Database connected to port 27017.");
   }
