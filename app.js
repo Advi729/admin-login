@@ -7,11 +7,14 @@ var hbs = require('express-handlebars');
 var fileUpload = require('express-fileupload');
 var db = require('./config/connection');
 var session = require('express-session');
+var {v4: uuidv4} = require('uuid');
+var nocache = require('nocache');
 
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,17 +27,24 @@ app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__d
 // }));
 // app.engine('hbs', hbs.engine({
 //   extname: 'hbs',
-//   defaultLayout: 'layout',
+//   defaultLayout: 'layout', 
 //   layoutsDir: __dirname + '/views/layout/',
 //   partialsDir: __dirname + '/views/partials'
 // }))
+app.use(nocache());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
-app.use(session({secret:"key",cookie:{maxAge:1200000}}));
+
+app.use(session({
+  secret: uuidv4(),
+  resave: false,
+  saveUninitialized: true,
+  cookie:{maxAge:6000000}
+}));
 
 db.connect((err)=>{
   if(err){

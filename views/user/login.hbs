@@ -10,7 +10,7 @@
               <h2 class="fw-bold mb-2">Login Page</h2>
               <p class="text-white-50 mb-5">Please enter your username and password!</p>
             {{#if loginError}}
-              <p class="loginerror" style="color:red;">Invalid username or password</p>
+              <p class="loginerror" style="color:red;">{{loginError}}</p>
             {{/if}}
 
             <form action="/login" method="POST" id="form1">
